@@ -5,6 +5,9 @@ const { validationResult } = require('express-validator');
 const crypto = require('crypto');
 const otplib = require('otplib');
 const qrcode = require('qrcode');
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Generate JWT Access Token
 const generateAccessToken = (id, role) => {
@@ -201,6 +204,79 @@ exports.login = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+// @desc    Google Sign In
+exports.googleAuth = async (req, res, next) => {
+  try {
+    const { idToken } = req.body;
+    
+    if (!idToken) {
+        return res.status(400).json({ message: 'Google Token is required' });
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const { email, name, picture, sub: googleId } = payload;
+
+    let user = await User.findOne({ 
+      where: { 
+        [require('sequelize').Op.or]: [
+          { email: email.toLowerCase() },
+          { googleId }
+        ]
+      } 
+    });
+
+    if (!user) {
+      // Create user if they don't exist
+      user = await User.create({
+        fullName: name,
+        email: email.toLowerCase(),
+        username: email.split('@')[0] + Math.floor(Math.random() * 1000),
+        avatar: picture,
+        role: 'buyer', // Default role
+        password: crypto.randomBytes(16).toString('hex'), // Random password
+        isVerified: true,
+        googleId
+      });
+    } else if (!user.googleId) {
+        // Link existing account
+        user.googleId = googleId;
+        if (!user.avatar) user.avatar = picture;
+        await user.save();
+    }
+
+    // Update last login
+    user.lastLogin = new Date();
+    await user.save();
+
+    const accessToken = generateAccessToken(user.id, user.role);
+    const refreshToken = await RefreshToken.createToken(user);
+
+    res.json({
+      success: true,
+      accessToken,
+      refreshToken,
+      data: {
+        id: user.id,
+        fullName: user.fullName,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        location: user.location,
+        county: user.county,
+        avatar: user.avatar,
+        twoFaEnabled: user.twoFaEnabled
+      }
+    });
+  } catch (error) {
+    console.error('Google Auth Error:', error);
+    res.status(401).json({ message: 'Google authentication failed' });
   }
 };
 

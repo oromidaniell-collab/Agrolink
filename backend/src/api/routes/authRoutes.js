@@ -4,6 +4,7 @@ const { body } = require('express-validator');
 const {
   register,
   login,
+  googleAuth,
   getMe,
   refreshToken,
   enable2FA,
@@ -23,6 +24,8 @@ router.post('/login', [
   body('email').isEmail().withMessage('Valid email required'),
   body('password').notEmpty().withMessage('Password required')
 ], login);
+
+router.post('/google', googleAuth);
 
 router.post('/refresh-token', refreshToken);
 

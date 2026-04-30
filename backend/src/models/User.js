@@ -36,7 +36,7 @@ const User = sequelize.define('User', {
   },
   phone: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: true,
     unique: true
   },
   role: {
@@ -106,6 +106,11 @@ const User = sequelize.define('User', {
   resetPasswordExpire: {
     type: DataTypes.DATE,
     allowNull: true
+  },
+  googleId: {
+    type: DataTypes.STRING(100),
+    allowNull: true,
+    unique: true
   }
 }, {
   underscored: true,
