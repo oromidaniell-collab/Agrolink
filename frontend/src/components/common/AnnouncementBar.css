@@ -1,12 +1,14 @@
 .announcement-bar {
     background: linear-gradient(90deg, #16A34A 0%, #22C55E 100%);
     color: white;
-    padding: 8px 0;
+    padding: 12px 0;
     overflow: hidden;
     position: relative;
     z-index: 1100;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 

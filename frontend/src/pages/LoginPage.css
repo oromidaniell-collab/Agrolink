@@ -103,8 +103,36 @@
     border-radius: var(--radius-lg);
 }
 
+.login-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 2rem 0;
+    color: var(--gray-600);
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.login-divider span {
+    margin: 0 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.google-login-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
 .login-footer {
-    margin-top: 2.5rem;
+    margin-top: 1.5rem;
     text-align: center;
     padding-top: 2rem;
     border-top: 1px solid var(--gray-100);
@@ -138,7 +166,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    /* background: url('/assets/images/farm-pattern.png') repeat; */
     opacity: 0.1;
 }
 

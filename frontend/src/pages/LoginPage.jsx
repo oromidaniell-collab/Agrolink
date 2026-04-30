@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/slices/authSlice';
+import { login, googleLogin } from '../redux/slices/authSlice';
 import LoginForm from '../components/auth/LoginForm';
+import { GoogleLogin } from '@react-oauth/google';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -31,6 +32,24 @@ const LoginPage = () => {
         }
     };
 
+    const handleGoogleSuccess = async (credentialResponse) => {
+        setLoading(true);
+        setError('');
+        try {
+            const result = await dispatch(googleLogin(credentialResponse.credential));
+            if (googleLogin.fulfilled.match(result)) {
+                navigate('/dashboard');
+            } else {
+                setError(result.payload?.message || 'Google Login failed');
+            }
+        } catch (err) {
+            console.error('Google login error:', err);
+            setError('An unexpected error occurred during Google Login');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="login-page">
             <div className="login-container">
@@ -48,6 +67,21 @@ const LoginPage = () => {
                     )}
 
                     <LoginForm onSubmit={handleLogin} loading={loading} />
+
+                    <div className="login-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <div className="google-login-wrap">
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={() => setError('Google Login failed')}
+                            theme="outline"
+                            size="large"
+                            width="100%"
+                            text="continue_with"
+                        />
+                    </div>
 
                     <div className="login-footer">
                         <p>Don't have an account? <Link to="/register">Register here</Link></p>

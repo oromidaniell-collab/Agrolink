@@ -3,11 +3,12 @@ import './AnnouncementBar.css';
 
 const AnnouncementBar = () => {
     const messages = [
-        "Welcome to AgroLink Marketplace - Your direct link to fresh farm produce!",
-        "Flash Sale: Up to 30% off on all Grains this week! 🌾",
-        "New Logistics Services available: Fast delivery across all counties! 🚚",
-        "Join our Advisory program for expert farming tips and market insights. 📈",
-        "Quality Guaranteed: From farm to your doorstep. 🏠"
+        "Welcome to AgroLink - Kenya's Number One Agricultural Marketplace",
+        "Direct Link Between Farmers and Buyers - No Middlemen, Better Prices",
+        "Source Quality Farm Inputs, Seeds and Fertilizers from Trusted Suppliers",
+        "Fast and Reliable Transport and Logistics for Your Farm Produce",
+        "Expert Agricultural Advisory and Real-time Market Price Insights",
+        "Secure Payments and Guaranteed Trade Across All 47 Counties"
     ];
 
     return (
