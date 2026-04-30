@@ -26,10 +26,6 @@ const ProductsPage = () => {
         { id: 'grains', label: 'Grains' },
         { id: 'livestock', label: 'Livestock' },
         { id: 'dairy', label: 'Dairy' },
-        { id: 'market-linkage', label: 'Market Linkage' },
-        { id: 'input-supplies', label: 'Input Supplies' },
-        { id: 'transport', label: 'Transport & Logistics' },
-        { id: 'advisory', label: 'Agri Advisory' },
         { id: 'other', label: 'Other' }
     ];
 
@@ -48,6 +44,11 @@ const ProductsPage = () => {
         setSearchParams(newParams);
     };
 
+    // Filter products to only show physical agricultural products
+    const agriculturalProducts = products?.filter(p => 
+        categories.some(cat => cat.id === p.category) || !p.category
+    );
+
     return (
         <div className="products-page">
             {/* Premium Hero Banner */}
@@ -58,13 +59,13 @@ const ProductsPage = () => {
                 </div>
                 <div className="container hero-content-modern">
                     <div className="hero-text-content">
-                        <h1>Discover <span className="text-gradient">Premium</span> Products & Services</h1>
-                        <p>Explore the finest agricultural produce and top-tier services tailored for you.</p>
+                        <h1>Fresh From <span className="text-gradient">The Farm</span></h1>
+                        <p>Discover premium agricultural produce directly from local farmers.</p>
                     </div>
                     <div className="hero-search-glass">
                         <SearchBar
                             onSearch={(value) => handleFilterChange('search', value)}
-                            placeholder="Search fresh tomatoes, logistics, advisory..."
+                            placeholder="Search fresh tomatoes, organic honey, maize..."
                             initialValue={filters.search}
                         />
                     </div>
@@ -75,7 +76,10 @@ const ProductsPage = () => {
             <div className="products-container container">
                 {/* Filters Sidebar */}
                 <aside className="filters-sidebar">
-                    <h3>Filters</h3>
+                    <div className="sidebar-header">
+                        <h3>Filters</h3>
+                        <button className="reset-btn" onClick={() => setSearchParams({})}>Reset</button>
+                    </div>
 
                     <div className="filter-group">
                         <h4><i className="fas fa-layer-group"></i> Category</h4>
@@ -99,7 +103,7 @@ const ProductsPage = () => {
                                 className="clear-filter"
                                 onClick={() => handleFilterChange('category', '')}
                             >
-                                Clear
+                                Clear Selection
                             </button>
                         )}
                     </div>
@@ -142,30 +146,30 @@ const ProductsPage = () => {
                 {/* Products Grid */}
                 <main className="products-main">
                     <div className="products-header">
-                        <h2>{filters.category ? categories.find(c => c.id === filters.category)?.label : 'All Products & Services'}</h2>
-                        <span className="products-badge">{products?.length || 0} Results</span>
+                        <h2>{filters.category ? categories.find(c => c.id === filters.category)?.label : 'All Produce'}</h2>
+                        <span className="products-badge">{agriculturalProducts?.length || 0} Results</span>
                     </div>
 
                     {loading ? (
                         <div className="loading-state">
                             <div className="spinner"></div>
-                            <p>Loading products...</p>
+                            <p>Loading fresh produce...</p>
                         </div>
                     ) : error ? (
                         <div className="error-state">
                             <i className="fas fa-exclamation-circle"></i>
                             <p>{error}</p>
                         </div>
-                    ) : products && products.length > 0 ? (
+                    ) : agriculturalProducts && agriculturalProducts.length > 0 ? (
                         <div className="products-grid">
-                            {products.map(product => (
+                            {agriculturalProducts.map(product => (
                                 <ProductCard key={product.id} product={product} />
                             ))}
                         </div>
                     ) : (
                         <div className="empty-state">
                             <i className="fas fa-search"></i>
-                            <h3>No products found</h3>
+                            <h3>No produce found</h3>
                             <p>Try adjusting your filters or search terms</p>
                         </div>
                     )}

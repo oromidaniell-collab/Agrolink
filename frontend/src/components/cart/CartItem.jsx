@@ -10,7 +10,7 @@ const CartItem = ({ item }) => {
     };
 
     return (
-        <div className="cart-item-card glass-panel">
+        <div className="cart-item-card">
             <div className="cart-item-image">
                 <img src={item.image || '/placeholder.jpg'} alt={item.name} />
             </div>

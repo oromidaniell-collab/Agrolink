@@ -7,12 +7,14 @@ import { store } from './redux/store';
 // Layout Components
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
+import AnnouncementBar from './components/common/AnnouncementBar';
 
 // Pages
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProductsPage from './pages/ProductsPage';
+import ServicesPage from './pages/ServicesPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import DashboardPage from './pages/DashboardPage';
 import CartPage from './pages/CartPage';
@@ -37,6 +39,7 @@ function App() {
     <Provider store={store}>
       <Router>
         <div className="App">
+          <AnnouncementBar />
           <Header />
           <main className="main-content">
             <Routes>
@@ -45,6 +48,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/products" element={<ProductsPage />} />
+              <Route path="/services" element={<ServicesPage />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />

@@ -29,18 +29,9 @@ const Header = () => {
 
         <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
           <Link to="/">Home</Link>
+          <Link to="/products">Products</Link>
+          <Link to="/services">Services</Link>
           <Link to="/about">About Us</Link>
-          <div className="services-dropdown">
-            <Link to="/products" className="services-link">
-              Services <i className="fas fa-chevron-down"></i>
-            </Link>
-            <div className="services-dropdown-content">
-              <Link to="/products?category=market-linkage"><i className="fas fa-link"></i> Market Linkage</Link>
-              <Link to="/products?category=input-supplies"><i className="fas fa-seedling"></i> Input Supplies</Link>
-              <Link to="/products?category=transport"><i className="fas fa-truck"></i> Transport & Logistics</Link>
-              <Link to="/products?category=advisory"><i className="fas fa-chart-pie"></i> Agri Advisory</Link>
-            </div>
-          </div>
           <Link to="/how-it-works">How It Works</Link>
           <Link to="/app">App</Link>
           <Link to="/pricing">Pricing</Link>
