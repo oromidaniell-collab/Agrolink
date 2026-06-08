@@ -27,11 +27,17 @@ const ServicesPage = () => {
         { id: 'market-linkage', label: 'Market Linkage', icon: 'fa-handshake' }
     ];
 
+    // Prevent request spam: debounce URL-driven fetch
+    const [debouncedFilters, setDebouncedFilters] = useState(filters);
     useEffect(() => {
-        // Fetch products but we'll filter for services if no category is selected
-        // Or better, we can filter the results in the frontend if the backend doesn't support "all services"
-        dispatch(fetchProducts(filters));
-    }, [filters, dispatch]);
+        const t = setTimeout(() => setDebouncedFilters(filters), 400);
+        return () => clearTimeout(t);
+    }, [filters]);
+
+    useEffect(() => {
+        dispatch(fetchProducts(debouncedFilters));
+    }, [debouncedFilters, dispatch]);
+
 
     const handleFilterChange = (name, value) => {
         const newParams = new URLSearchParams(searchParams);

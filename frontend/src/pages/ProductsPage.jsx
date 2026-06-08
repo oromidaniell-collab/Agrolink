@@ -29,10 +29,17 @@ const ProductsPage = () => {
         { id: 'other', label: 'Other' }
     ];
 
+    // Prevent request spam: only fetch when user explicitly changes params
+    const [debouncedFilters, setDebouncedFilters] = useState(filters);
     useEffect(() => {
-        // Fetch products with filters
-        dispatch(fetchProducts(filters));
-    }, [filters, dispatch]);
+        const t = setTimeout(() => setDebouncedFilters(filters), 400);
+        return () => clearTimeout(t);
+    }, [filters]);
+
+    useEffect(() => {
+        dispatch(fetchProducts(debouncedFilters));
+    }, [debouncedFilters, dispatch]);
+
 
     const handleFilterChange = (name, value) => {
         const newParams = new URLSearchParams(searchParams);
