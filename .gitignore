@@ -40,3 +40,5 @@ runSeed.js
 venv
 .env
 .env.example
+.sixth/
+.sixth\
