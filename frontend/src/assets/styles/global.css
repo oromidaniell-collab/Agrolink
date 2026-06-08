@@ -1,0 +1,32 @@
+/* Global baseline: keep typography readable and consistent across the app */
+:root {
+  --text: #0f172a;
+  --muted: #64748b;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+  color: var(--text);
+  background: #f8fafc;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: inherit;
+}
+
+/* For dark header/hero blocks */
+.services-hero,
+.products-hero-modern {
+  color: #ffffff;
+}
+
+.services-hero h1,
+.services-hero h2,
+.services-hero h3,
+.products-hero-modern h1,
+.products-hero-modern h2,
+.products-hero-modern h3 {
+  color: #ffffff;
+}
+
