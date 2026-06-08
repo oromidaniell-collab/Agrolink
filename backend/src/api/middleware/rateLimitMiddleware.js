@@ -3,13 +3,21 @@ const rateLimit = require('express-rate-limit');
 // General API rate limiter
 exports.apiLimiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
-    // Increase max to reduce false-positives during page loads (product/service lists can be chatty)
     max: process.env.NODE_ENV === 'development' ? 50000 : 10000,
     message: 'Too many requests from this IP, please try again later.',
     standardHeaders: true,
     legacyHeaders: false,
-    skip: (req) => process.env.NODE_ENV === 'development' && req.ip === '127.0.0.1',
+    // Skip common “browse” GETs to avoid throttling normal pagination/search.
+    skip: (req) => {
+        if (process.env.NODE_ENV === 'development' && req.ip === '127.0.0.1') return true;
+        if (req.method === 'GET' && (
+            req.originalUrl.startsWith('/api/products') ||
+            req.originalUrl.startsWith('/api/categories')
+        )) return true;
+        return false;
+    }
 });
+
 
 
 // Strict limiter for authentication routes
