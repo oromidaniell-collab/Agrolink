@@ -1,0 +1,14 @@
+---
+deployment:
+  tasks:
+    # Deploy backend files to api.agrolink.biz
+    - export DEPLOYPATH=/home/jvhjxunm/public_html/agrolink/api.agrolink.biz/
+    - /bin/cp -R backend/server.js $DEPLOYPATH
+    - /bin/cp -R backend/package.json $DEPLOYPATH
+    - /bin/cp -R backend/app.js $DEPLOYPATH 2>/dev/null; true
+    - /bin/mkdir -p $DEPLOYPATH/src
+    - /bin/cp -R backend/src/* $DEPLOYPATH/src/
+    # Deploy frontend build to public_html
+    - /bin/cp -R frontend/build/* /home/jvhjxunm/public_html/
+    # Deploy admin panel build to admin subdomain
+    - /bin/cp -R admin-panel/build/* /home/jvhjxunm/admin.agrolink.biz/

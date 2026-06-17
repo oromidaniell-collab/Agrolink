@@ -6,8 +6,10 @@ const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
+  withCredentials: true
 });
+
 
 // Request interceptor to add token
 api.interceptors.request.use(

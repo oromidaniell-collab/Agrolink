@@ -12,9 +12,12 @@ export const login = createAsyncThunk(
         email,
         password
       });
+      // Access token can still be used from memory/header for now.
+      // Refresh token will be moved to HttpOnly cookie in a later step.
       localStorage.setItem('token', response.data.accessToken);
       toast.success('Login successful!');
       return response.data;
+
     } catch (error) {
       toast.error(error.response?.data?.message || 'Login failed');
       return rejectWithValue(error.response?.data);
@@ -44,6 +47,7 @@ export const googleLogin = createAsyncThunk(
       const response = await axios.post(`${API_URL}/auth/google`, { idToken });
       localStorage.setItem('token', response.data.accessToken);
       return response.data;
+
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }
